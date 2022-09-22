@@ -66,15 +66,21 @@ stages:
         zipAfterPublish: true
 
     - script: |
-        echo 'Creating test dir'
+        echo 'Creating dir and file'
         mkdir test
         pwd > test/pathdate.log
         date >> test/pathdate.log
         cat test/pathdate.log
+      displayName: 'Create dir and file'
+
+    - script: |
+        echo 'Commiting and pushing file'
+        git config user.email '$(gitUserEmail)'
+        git config user.name '$(gitUserName)'
         git add test/pathdate.log
         git commit -m "Add pathdate file"
-        git push https://kova82:Phase1997!@github.com/kova82/mslearn-tailspin-spacegame-web-deploy.git HEAD:release
-      displayName: 'Create dir and file'
+        git push https://'$(gitUserName)':'$(gitUserPassword)'@github.com/kova82/mslearn-tailspin-spacegame-web-deploy.git HEAD:release
+      displayName: 'Commit and push file'      
      
     - publish: '$(Build.ArtifactStagingDirectory)'
       artifact: drop
