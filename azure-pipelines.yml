@@ -63,6 +63,14 @@ stages:
         arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(buildConfiguration)'
         zipAfterPublish: true
 
+    - script: |
+        echo 'Creating test dir'
+        mkdir test
+        pwd > test/pathdate.log
+        date >> test/pathdate.log
+        cat test/pathdate.log
+      displayName: 'Create dir and file'
+     
     - publish: '$(Build.ArtifactStagingDirectory)'
       artifact: drop
 
